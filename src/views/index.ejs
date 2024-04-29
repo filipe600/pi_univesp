@@ -6,70 +6,75 @@
       <div class="col-lg-8 my-3">
         <div class="row">
           <div class="col">
-            <% let data = new Date(); 
-            data.setHours(-3);%>
-            <label for="basic-url" class="form-label mt-2">Selecione a data para consultar as reservas:</label>
-            <input type="date" class="form-control mb-2 mt-1 ice-cream" placeholder="Data" value='<%= query.data ? query.data : data.toISOString().substring(0, 10); %>' id="data" name="data">
+            <% let data=new Date(); data.setHours(-3);%>
+              <label for="basic-url" class="form-label mt-2">Selecione a data para consultar as reservas:</label>
+              <input type="date" class="form-control mb-2 mt-1 ice-cream" placeholder="Data"
+                value='<%= query.data ? query.data : data.toISOString().substring(0, 10); %>' id="data" name="data">
           </div>
           <div class="col">
           </div>
         </div>
         <%- include('includes/messages') %>
-          <div class="accordion" id="accordionPanelsStayOpenExample">
-            <% result=Object.groupBy(reservas, ({ lab })=> lab);
-              keys=(Object.keys(result));
-              keys.forEach(key=>{ %>
-              <div class="accordion-item">
-                <h2 class="accordion-header">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapse<%= key %>" aria-expanded="true"
-                    aria-controls="panelsStayOpen-collapse<%= key %>">
-                    Laboratório <%= key %>
-                  </button>
-                </h2>
-                <div id="panelsStayOpen-collapse<%= key %>" class="accordion-collapse collapse show">
-                  <div class="accordion-body">
-                    <div class="responsive-table">
-                      <table class="table my-1">
-                        <thead>
-                          <tr>
-                            <th scope="col">Data</th>
-                            <th scope="col">Turno</th>
-                            <th scope="col">Bloco</th>
-                            <th scope="col">Turma</th>
-                            <th scope="col">Professor</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <% result[key].forEach(reserva=> { %>
-                            <tr>
-                              <td>
-                                <%= reserva.data.toISOString().substring(8,10) + "/" +
-                                  reserva.data.toISOString().substring(5,7) + "/" +
-                                  reserva.data.toISOString().substring(0,4) %>
-                              </td>
-                              <td>
-                                <%= reserva.turno %>
-                              </td>
-                              <td>
-                                <%= reserva.bloco %>
-                              </td>
-                              <td>
-                                <%= reserva.turma %>
-                              </td>
-                              <td>
-                                <%= reserva.nome %>
-                              </td>
-                            </tr>
-                        </tbody>
-                        <% }); %>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <% }); %>
+        <% result=Object.groupBy(reservas, ({ lab })=> lab); %>
+        <% keys=(Object.keys(result)); %>
+        <% if(!keys.length) { %>
+          <div class="row">
+            <p class="text-center lead">Sem reservas para a data especificada.</p>
           </div>
+        <% }; %>
+                  <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <% keys.forEach(key=>{ %>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapse<%= key %>" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapse<%= key %>">
+                            Laboratório <%= key %>
+                          </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapse<%= key %>" class="accordion-collapse collapse show">
+                          <div class="accordion-body">
+                            <div class="responsive-table">
+                              <table class="table my-1">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Data</th>
+                                    <th scope="col">Turno</th>
+                                    <th scope="col">Bloco</th>
+                                    <th scope="col">Turma</th>
+                                    <th scope="col">Professor</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <% result[key].forEach(reserva=> { %>
+                                    <tr>
+                                      <td>
+                                        <%= reserva.data.toISOString().substring(8,10) + "/" +
+                                          reserva.data.toISOString().substring(5,7) + "/" +
+                                          reserva.data.toISOString().substring(0,4) %>
+                                      </td>
+                                      <td>
+                                        <%= reserva.turno %>
+                                      </td>
+                                      <td>
+                                        <%= reserva.bloco %>
+                                      </td>
+                                      <td>
+                                        <%= reserva.turma %>
+                                      </td>
+                                      <td>
+                                        <%= reserva.nome %>
+                                      </td>
+                                    </tr>
+                                </tbody>
+                                <% }); %>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <% }); %>
+                  </div>
       </div>
       <div class="col-lg-2"></div>
     </div>
@@ -78,7 +83,7 @@
     const selectElement = document.querySelector(".ice-cream");
     const myInput = document.getElementById("data");
     selectElement.addEventListener("change", (event) => {
-    window.location = "/index/" + myInput.value;
+      window.location = "/index/" + myInput.value;
     });
   </script>
 
