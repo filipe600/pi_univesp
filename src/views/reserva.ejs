@@ -1,0 +1,153 @@
+<%- include('includes/head'); %>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8 my-3">
+        <h2 class="display-1 text-center">Reservas</h2>
+        <p class="text-center lead">Crie ou edite sua reserva abaixo:</p>
+        <%- include('includes/messages') %>
+          <div class="responsive-table">
+            <% let data=new Date(); data.setHours(-3);%>
+              <% if (reserva._id) { %>
+                <form action="/reservas/edit/<%= reserva._id %>" method="post" class="needs-validation" novalidate>
+                  <% } else { %>
+                    <form action="/reservas/register" method="post" class="needs-validation" novalidate>
+                      <% } %>
+                        <div class="mb-3">
+                          <div class="row mb-3">
+                            <div class="col">
+                              <select class="form-select" name="lab" aria-label="nulo" id='lab' required>
+                                <option value="" disabled <%=!reserva.id ? 'selected' : '' %>>Selecione o laboratório
+                                </option>
+                                <option value="A1" <%=reserva.lab=="A1" ? 'selected' : '' %>>A1 - Informática</option>
+                                <option value="A2" <%=reserva.lab=="A2" ? 'selected' : '' %>>A2 - Informática</option>
+                                <option value="A5" <%=reserva.lab=="A5" ? 'selected' : '' %>>A5 - Informática</option>
+                                <option value="A9" <%=reserva.lab=="A9" ? 'selected' : '' %>>A9 - Informática</option>
+                                <option value="ETN1" <%=reserva.lab=="ETN1" ? 'selected' : '' %>>ETN1 - Eletrônica
+                                </option>
+                                <option value="ETN2" <%=reserva.lab=="ETN2" ? 'selected' : '' %>>ETN2 - Eletrônica
+                                </option>
+                                <option value="TELE1" <%=reserva.lab=="TELE1" ? 'selected' : '' %>>TELE1 -
+                                  Telecomunicações</option>
+                                <option value="TELE2" <%=reserva.lab=="TELE2" ? 'selected' : '' %>>TELE2 -
+                                  Telecomunicações</option>
+                                <option value="MEC" <%=reserva.lab=="MEC" ? 'selected' : '' %>>MEC - Mecânica</option>
+                              </select>
+                              <div class="invalid-feedback">
+                                Selecione a laboratório.
+                              </div>
+                            </div>
+                            <div class="col">
+                              <select class="form-select" name="turma" aria-label="nulo" required>
+                                <option disabled value="" <%=!reserva.turma ? 'selected' : '' %>>Selecione a turma
+                                </option>
+                                <option value="1º ETN" <%=reserva.turma=="1º ETN" ? 'selected' : '' %>>1º ETN</option>
+                                <option value="2º ETN" <%=reserva.turma=="2º ETN" ? 'selected' : '' %>>2º ETN</option>
+                                <option value="3º ETN" <%=reserva.turma=="3º ETN" ? 'selected' : '' %>>3º ETN</option>
+                                <option value="1º ETT" <%=reserva.turma=="1º ETT" ? 'selected' : '' %>>1º ETT</option>
+                                <option value="2º ETT" <%=reserva.turma=="2º ETT" ? 'selected' : '' %>>2º ETT</option>
+                                <option value="3º ETT" <%=reserva.turma=="3º ETT" ? 'selected' : '' %>>3º ETT</option>
+                                <option value="1º MEC" <%=reserva.turma=="1º MEC" ? 'selected' : '' %>>1º MEC</option>
+                                <option value="2º MEC" <%=reserva.turma=="2º MEC" ? 'selected' : '' %>>2º MEC</option>
+                                <option value="3º MEC" <%=reserva.turma=="3º MEC" ? 'selected' : '' %>>3º MEC</option>
+                                <option value="1º ADM" <%=reserva.turma=="1º ADM" ? 'selected' : '' %>>1º ADM</option>
+                                <option value="2º ADM" <%=reserva.turma=="2º ADM" ? 'selected' : '' %>>2º ADM</option>
+                                <option value="3º ADM" <%=reserva.turma=="3º ADM" ? 'selected' : '' %>>3º ADM</option>
+                                <option value="1º CONT" <%=reserva.turma=="1º CONT" ? 'selected' : '' %>>1º CONT
+                                </option>
+                                <option value="2º CONT" <%=reserva.turma=="2º CONT" ? 'selected' : '' %>>2º CONT
+                                </option>
+                                <option value="3º CONT" <%=reserva.turma=="3º CONT" ? 'selected' : '' %>>3º CONT
+                                </option>
+                                <option value="1º LOG" <%=reserva.turma=="1º LOG" ? 'selected' : '' %>>1º LOG</option>
+                                <option value="2º LOG" <%=reserva.turma=="2º LOG" ? 'selected' : '' %>>2º LOG</option>
+                                <option value="3º LOG" <%=reserva.turma=="3º LOG" ? 'selected' : '' %>>3º LOG</option>
+                              </select>
+                              <div class="invalid-feedback">
+                                Selecione a turma.
+                              </div>
+                            </div>
+                          </div>
+
+                          <input type="hidden" name="_csrf" value="<%=csrfToken %>">
+                          <input type="hidden" name="nome" value="<%=user.nome %>">
+                        </div>
+                        <div class="mb-3">
+                          <div class="row mb-3">
+                            <div class="col">
+                              <input type="date" class="form-control" placeholder="Data"
+                                value='<%= reserva.data ? reserva.data.toISOString().substring(0,10) : data.toISOString().substring(0, 10); %>'
+                                name="data" required>
+                              <div class="invalid-feedback">
+                                Selecione a data.
+                              </div>
+                            </div>
+                            <div class="col">
+                              <select class="form-select" name="turno" aria-label="TURNO" required>
+                                <option disabled value="" <%=!reserva.turma ? 'selected' : '' %>>Turno</option>
+                                <option value="Manhã" <%=reserva.turma=="Manhã" ? 'selected' : '' %>>Manhã</option>
+                                <option value="Tarde" <%=reserva.turma=="Tarde" ? 'selected' : '' %>>Tarde</option>
+                                <option value="Noite" <%=reserva.turma=="Noite" ? 'selected' : '' %>>Noite</option>
+                              </select>
+                              <div class="invalid-feedback">
+                                Selecione o turno.
+                              </div>
+                            </div>
+                            <div class="col">
+                              <select class="form-select" name="bloco" aria-label="BLOCO" required>
+                                <option disabled value="" <%=!reserva.turma ? 'selected' : '' %>>Bloco</option>
+                                <option value="1º Bloco" <%=reserva.turma=="1º Bloco" ? 'selected' : '' %>>1º Bloco
+                                </option>
+                                <option value="2º Bloco" <%=reserva.turma=="2º Bloco" ? 'selected' : '' %>>2º Bloco
+                                </option>
+                            </div>
+                            <div class="invalid-feedback">
+                              Selecione o bloco.
+                            </div>
+                            </select>
+                          </div>
+                        </div>
+          </div>
+          <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Observações" id="floatingTextarea2" name=obs
+              style="height: 100px"><%= reserva.obs %></textarea>
+            <label for="floatingTextarea2">Observações</label>
+          </div>
+          <a class="btn btn-primary" href="/reservas/index" role="button">Voltar</a>
+          <button type="submit" class="btn btn-primary">
+            <% if (!reserva._id) { %>
+              Reservar
+              <% } else { %>
+                Salvar alterações
+                <% } %>
+          </button>
+          <% if (reserva._id) { %>
+          <a class="btn btn-primary" href="/reservas/cadastro" role="button">Nova Reserva</a>
+          <% } %>
+          </form>
+      </div>
+
+
+    </div>
+    <div class="col-lg-2"></div>
+  </div>
+  </div>
+  <script>(() => {
+      'use strict'
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.needs-validation')
+
+      // Loop over them and prevent submission
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+    })()</script>
+
+  <%- include('includes/footer'); %>
