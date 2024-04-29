@@ -83,7 +83,7 @@ Reserva.delete = async function(id) {
 Reserva.buscaReservaPorData = async function(data) {
   if(typeof data !== 'string') {
   let hoje = new Date() ;
-  hoje.setHours(-3);
+  //hoje.setHours(-3);
   data = hoje.toISOString().substring(0,10);
   console.log("now"+data);
   }

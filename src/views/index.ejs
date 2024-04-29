@@ -6,7 +6,7 @@
       <div class="col-lg-8 my-3">
         <div class="row">
           <div class="col">
-            <% let data=new Date(); data.setHours(-3);%>
+            <% let data=new Date(); //data.setHours(-3);%>
               <label for="basic-url" class="form-label mt-2">Selecione a data para consultar as reservas:</label>
               <input type="date" class="form-control mb-2 mt-1 ice-cream" placeholder="Data"
                 value='<%= query.data ? query.data : data.toISOString().substring(0, 10); %>' id="data" name="data">

@@ -7,7 +7,7 @@
         <p class="text-center lead">Crie ou edite sua reserva abaixo:</p>
         <%- include('includes/messages') %>
           <div class="responsive-table">
-            <% let data=new Date(); data.setHours(-3);%>
+            <% let data=new Date(); //data.setHours(-3);%>
               <% if (reserva._id) { %>
                 <form action="/reservas/edit/<%= reserva._id %>" method="post" class="needs-validation" novalidate>
                   <% } else { %>
